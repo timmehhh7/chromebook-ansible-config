@@ -15,24 +15,22 @@
 - debug:
     msg: "Use this task include to define your own tasks"
 
-- block: # Golang
-    - name: '[Golang] Get tarball'
-        get_url:
-        url: https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
-        checksum: sha256:951a3c7c6ce4e56ad883f97d9db74d3d6d80d5fec77455c6ada6c1f7ac4776d2
-        dest: /usr/local/src
-    - name: '[Golang] Extract'
-        unarchive:
-        src: /usr/local/src/go1.16.3.linux-amd64.tar.gz
-        copy: no
-        dest: /usr/local
-    - name: '[Golang] Configure `~/.bashrc`'
-        become: false
-        lineinfile:
-            path: ~/.bashrc
-            line: '{{item}}'
-        with_items:
-            - export GOROOT=/usr/local/go
-            - export GOPATH=$HOME/go
-            - export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
-  
+- name: '[Golang] Get tarball'
+  get_url:
+    url: https://golang.org/dl/go1.16.3.linux-amd64.tar.gz
+    checksum: sha256:951a3c7c6ce4e56ad883f97d9db74d3d6d80d5fec77455c6ada6c1f7ac4776d2
+    dest: /usr/local/src
+- name: '[Golang] Extract'
+  unarchive:
+    src: /usr/local/src/go1.16.3.linux-amd64.tar.gz
+    copy: no
+    dest: /usr/local
+- name: '[Golang] Configure `~/.bashrc`'
+  become: false
+  lineinfile:
+    path: ~/.bashrc
+    line: '{{item}}'
+  with_items:
+    - export GOROOT=/usr/local/go
+    - export GOPATH=$HOME/go
+    - export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
